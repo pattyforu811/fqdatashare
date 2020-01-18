@@ -18,106 +18,31 @@
 
             mui.init();
 
-            document.addEventListener("plusready", function() { //"plusready"事件触发时执行plus对象的方法
+            document.addEventListener("plusready",onPlusReady, false);
 
-                judgePlatform();
-
-            }, false);
-
-            function judgePlatform() {
-
-                var plat = "";
-
-                switch(plus.os.name) {
-
-                    case "Android":
-
-                        // Android平台: plus.android.*
-
-                        plat = "android";
-
-                        var btn = document.getElementById("playBtn");
-
-                        //监听点击事件
-
-                        btn.addEventListener("tap", function() {
-
-                            console.log("-------开始播放--------");
-
-                            playVideo();
-
-                        });
-
-                        //触发submit按钮的点击事件
-
-//                        mui.trigger(btn, 'tap');
-
-                        break;
-
-                    case "iOS":
-
-                        // iOS平台: plus.ios.*
-
-                        plat = "ios";
-
-                        break;
-
-                    default:
-
-                        // 其它平台
-
-                        plat = "other";
-
-                        break;
-
-                }
-
-                document.getElementById("msg").innerHTML ="当前平台是："+plat;
-
-            }
-
-            function playVideo() {
-
-                var Intent = plus.android.importClass("android.content.Intent");
-
-                var Uri = plus.android.importClass("android.net.Uri");
-
-                var main = plus.android.runtimeMainActivity();
-
-                var intent = new Intent(Intent.ACTION_VIEW);
-
-                var uri = Uri.parse("video/福清多规合一数据共享平台演示视频.mp4");
-
-                intent.setDataAndType(uri, "video/*");
-
-                main.startActivity(intent);
-
-            }
-
-        </script>
-
-    </head>
-
-<style type="text/css">
-
-    div{
-
-        text-align: center;
-
-        margin-top: 7rem;
-
-    }
-
-</style>
-
-    <body>
-
-        <div id="msg"></div>
-
-        <div id="">
-
-    <button type="button" class="mui-btn mui-btn-blue" id="playBtn">播放</button>
-
-        </div>
+      		 // 扩展API加载完毕，现在可以正常调用扩展API 
+			function onPlusReady() { 
+			}
+			var p = null; 
+			function startPlay() {
+				if ( plus.audio == undefined ) {
+					alert( "Device not ready!" );
+				}
+				p = plus.audio.createPlayer( "video/福清多规合一数据共享平台演示视频.mp4" );
+				p.play( function () {
+					alert( "Audio play success!" ); 
+				}, function ( e ) {
+					alert( "Audio play error: " + e.message ); 
+				} ); 
+			}
+			function stopPlay() {
+				p.stop();
+			}
+	</script>
+	</head>
+	<body>
+		<input type="button" value="Start Play" onclick="startPlay();"/> 
+		<br/>
+		<input type="button" value="Stop Play" onclick="stopPlay();"/>
 	</body>
 </html>
