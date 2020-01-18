@@ -23,12 +23,14 @@
       		 // 扩展API加载完毕，现在可以正常调用扩展API 
 			function onPlusReady() { 
 
+alert("qqqq");
 			var p = null; 
 			function startPlay() {
 				if ( plus.audio == undefined ) {
 					alert( "Device not ready!" );
 				}
 				p = plus.audio.createPlayer( "video/福清多规合一数据共享平台演示视频.mp4" );
+				alert("PPPPPP:"+p)
 				p.play( function () {
 					alert( "Audio play success!" ); 
 				}, function ( e ) {
